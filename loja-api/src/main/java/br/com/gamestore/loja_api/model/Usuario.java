@@ -9,16 +9,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
-/*
- * UserDetails: É uma interface do Spring Security.
- * Nossa entidade Usuario agora É um "Detalhe de Usuário" que o Spring Security
- * entende como usar para fazer autenticação e autorização.
- */
 @Table(name = "tb_usuario")
-@Entity(name = "Usuario") // Corrigido (estava "Usario" com 's' antes)
+@Entity(name = "Usuario")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,66 +25,56 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // O 'login' (pode ser o email ou um username)
-    @Column(unique = true) // Garante que não teremos dois logins iguais
+    @Column(unique = true)
     private String login;
 
-    // A senha (que será armazenada com hash)
     private String senha;
 
-    // --- A CORREÇÃO MAIS IMPORTANTE ESTÁ AQUI ---
-    // Deve ser .STRING para salvar o texto "ADMIN" ou "USER"
-    // .ORDINAL salva o número (0 ou 1), o que causa o erro 403
     @Enumerated(EnumType.STRING)
     private UsuarioRole role;
 
-
-    // --- Métodos obrigatórios da interface UserDetails ---
+    private String nomeCompleto;
+    private LocalDate dataNascimento;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Define as permissões (roles) do usuário
         if (this.role == UsuarioRole.ADMIN) {
-            // Se for ADMIN, ele tem permissão de ADMIN e de USER
             return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_USER")
             );
         } else {
-            // Se for USER, ele tem apenas permissão de USER
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
         }
     }
 
     @Override
     public String getPassword() {
-        return this.senha; // O Spring Security pega a senha aqui
+        return this.senha;
     }
 
     @Override
     public String getUsername() {
-        return this.login; // O Spring Security pega o login aqui
+        return this.login;
     }
 
-    // --- Métodos de status da conta (vamos deixar 'true' por padrão) ---
     @Override
     public boolean isAccountNonExpired() {
-        return true; // A conta não expirou
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // A conta não está bloqueada
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // As credenciais (senha) não expiraram
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // A conta está habilitada
+        return true;
     }
 }
-

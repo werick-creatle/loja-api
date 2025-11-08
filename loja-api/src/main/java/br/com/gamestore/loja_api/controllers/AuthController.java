@@ -1,7 +1,7 @@
 // Este Controller é responsável por cuidar das rotas de autenticação (Registro e Login).
 
 package br.com.gamestore.loja_api.controllers;
-
+import java.time.LocalDate;
 import br.com.gamestore.loja_api.dto.LoginDTO;
 import br.com.gamestore.loja_api.dto.RegistroDTO;
 import br.com.gamestore.loja_api.dto.TokenDTO;
@@ -57,7 +57,14 @@ public class AuthController {
 
         // Criar o novo objeto Usuario
         // Por padrão, todo novo registro é um usuário comum (ROLE_USER)
-        Usuario novoUsuario = new Usuario(null, dados.login(), senhaCriptografada, UsuarioRole.USER);
+        Usuario novoUsuario = new Usuario(
+                null,
+                dados.login(),
+                senhaCriptografada,
+                UsuarioRole.USER,
+                dados.nomeCompleto(),
+                dados.dataNascimento()
+        );
 
         // Salvar o novo usuário no banco de dados
         this.usuarioRepository.save(novoUsuario);
@@ -67,7 +74,6 @@ public class AuthController {
     }
 
     // Endpoint de LOGIN (Autenticação)
-    // Rota: POST http://localhost:8080/login/login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO dados) {
         try {

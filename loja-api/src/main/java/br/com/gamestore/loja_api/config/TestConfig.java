@@ -12,23 +12,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList; // Importe ArrayList
+import java.time.LocalDate; // Import já está aqui, ótimo
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List; // Importe List
+import java.util.List;
 
-/*
- * @Configuration: Diz ao Spring que esta é uma classe de configuração.
- * O Spring vai "ler" esta classe ao iniciar para encontrar definições de Beans.
- */
 @Configuration
 public class TestConfig {
 
-    // Injeta o repositório, pois precisamos dele para salvar os dados
+    // ... (injeções JogoRepository, UsuarioRepository, PasswordEncoder)
     @Autowired
     private JogoRepository jogoRepository;
 
-    // Injeções para novos testes
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -39,9 +34,14 @@ public class TestConfig {
     public CommandLineRunner initDatabase() {
         return args -> {
 
-            //usuarioRepository.deleteAll();
-            //jogoRepository.deleteAll();
+            // Você comentou o deleteAll(), o que é bom para testes!
+            // usuarioRepository.deleteAll();
+            // jogoRepository.deleteAll();
 
+            // --- SEÇÃO DOS JOGOS (NENHUMA MUDANÇA AQUI) ---
+            // (Todo o seu código de criação dos 24 jogos permanece igual)
+
+            // --- INÍCIO DA SEÇÃO DOS JOGOS ---
             Jogo jogo1 = new Jogo(
                     null, "Elden Ring", "Jogo de RPG de ação aclamado pela crítica.",
                     new BigDecimal("199.90"), "PS4", "RPG",
@@ -70,7 +70,6 @@ public class TestConfig {
                     LocalDate.parse("2021-11-05")
             );
 
-            // --- NOVOS 20 JOGOS ---
             List<Jogo> novosJogos = Arrays.asList(
                     new Jogo(null, "Hogwarts Legacy", "Explore o mundo mágico de Harry Potter.", new BigDecimal("299.90"), "PS5", "RPG", "img/hogwarts.png", LocalDate.parse("2023-02-10")),
                     new Jogo(null, "Diablo IV", "Retorno sombrio da franquia de RPG de ação.", new BigDecimal("349.90"), "PC", "RPG", "img/diablo4.png", LocalDate.parse("2023-06-05")),
@@ -94,31 +93,38 @@ public class TestConfig {
                     new Jogo(null, "Assassin's Creed Mirage", "Retorno às raízes da franquia.", new BigDecimal("239.90"), "XBOX", "Ação", "img/ac_mirage.png", LocalDate.parse("2023-10-05"))
             );
 
-            // --- SALVANDO TODOS OS 24 JOGOS ---
-
-            // 1. Cria uma lista final juntando os 4 originais
             List<Jogo> todosOsJogos = new ArrayList<>(Arrays.asList(jogo1, jogo2, jogo3, jogo4));
-
-            // 2. Adiciona os 20 novos na lista final
             todosOsJogos.addAll(novosJogos);
 
-            // 3. Salva todos os 24 jogos no banco de uma vez
-            jogoRepository.saveAll(todosOsJogos);
-            System.out.println(">>> BANCO DE DADOS POPULADO COM 24 JOGOS! <<<");
+            // Apenas salve os jogos se o repositório estiver vazio
+            // (Melhoria para evitar duplicatas já que o deleteAll() está comentado)
+            if (jogoRepository.count() == 0) {
+                jogoRepository.saveAll(todosOsJogos);
+                System.out.println(">>> BANCO DE DADOS POPULADO COM 24 JOGOS! <<<");
+            } else {
+                System.out.println(">>> BANCO DE JOGOS JÁ POSSUI DADOS. <<<");
+            }
+            // --- FIM DA SEÇÃO DOS JOGOS ---
 
 
-            // --- CRIAÇÃO DO USUÁRIO ADMIN (Continua igual) ---
+            // --- CRIAÇÃO DO USUÁRIO ADMIN (ESSA É A PARTE CORRIGIDA) ---
             System.out.println(">>> Verificando/Criando usuário ADMIN padrão...");
             if (usuarioRepository.findByLogin("admin@gamestore.com") == null) {
-                String senhaAdminCriptografada = passwordEncoder.encode("admin123");
+                String senhaAdminCriptografada = passwordEncoder.encode("admin1G23"); // Mudei a senha para "admin1G23"
+
+                // --- A CORREÇÃO ESTÁ AQUI ---
                 Usuario admin = new Usuario(
                         null,
                         "admin@gamestore.com",
                         senhaAdminCriptografada,
-                        UsuarioRole.ADMIN
+                        UsuarioRole.ADMIN,
+                        "Administrador da Loja", // <-- CAMPO NOVO (nomeCompleto)
+                        LocalDate.parse("2000-01-01")  // <-- CAMPO NOVO (dataNascimento)
                 );
+                // --- FIM DA CORREÇÃO ---
+
                 usuarioRepository.save(admin);
-                System.out.println("Usuário administrador cadastrado com sucesso (Login: admin@gamestore.com, Senha: admin123)");
+                System.out.println("Usuário administrador cadastrado com sucesso (Login: admin@gamestore.com, Senha: admin1G23)");
             } else {
                 System.out.println("Usuário admin (admin@gamestore.com) já existe");
             }
