@@ -1,5 +1,8 @@
-package br.com.gamestore.loja_api.controllers; // Verifique seu pacote
+package br.com.gamestore.loja_api.controllers;
 
+
+import org.springframework.web.bind.annotation.PathVariable;
+import java.util.Optional;
 import br.com.gamestore.loja_api.dto.JogoCadastroDTO;
 import org.springframework.http.HttpStatus;
 import br.com.gamestore.loja_api.model.Jogo;
@@ -19,6 +22,21 @@ public class JogoController {
 
     @Autowired
     private JogoRepository jogoRepository;
+
+
+    @GetMapping("/{id}")
+    ResponseEntity<Jogo> buscarJogoPorId(@PathVariable Long id){
+        Optional<Jogo> optionalJogo = jogoRepository.findById(id);
+
+        //Verificação para saber se o jogo foi encontrado
+        if (optionalJogo.isPresent()){
+            Jogo jogoEncontrado = optionalJogo.get(); // se achar o jogo retorna o jogo
+            return ResponseEntity.ok(jogoEncontrado);
+        }else {
+            return ResponseEntity.notFound().build();//Se não achar retorna o status da requisição
+        }
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Jogo>> buscarTodosOsJogos() {
