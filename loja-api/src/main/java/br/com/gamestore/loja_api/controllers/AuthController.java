@@ -10,6 +10,7 @@ import br.com.gamestore.loja_api.model.UsuarioRole;
 import br.com.gamestore.loja_api.repositories.UsuarioRepository;
 import br.com.gamestore.loja_api.services.TokenService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registrarUsuario(@RequestBody RegistroDTO dados) {
+    public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroDTO dados) {
 
         // 1. Verifica se o login (email/username) já está em uso
         // (Usando o método 'findByLogin' que criamos no UsuarioRepository)
