@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import jakarta.validation.Valid;
+
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class JogoController {
 
     // 3. Cadastrar Novo
     @PostMapping
-    public ResponseEntity<?> cadastrarNovoJogo(@RequestBody JogoCadastroDTO dados) {
+    public ResponseEntity<?> cadastrarNovoJogo(@Valid @RequestBody JogoCadastroDTO dados) {
         try {
             Jogo jogoSalvo = jogoService.cadastrarNovoJogo(dados);
             return ResponseEntity.status(HttpStatus.CREATED).body(jogoSalvo);
@@ -56,7 +58,7 @@ public class JogoController {
 
     // 4. Atualizar
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarJogo(@PathVariable Long id, @RequestBody JogoCadastroDTO dados) {
+    public ResponseEntity<?> atualizarJogo(@PathVariable Long id,@Valid @RequestBody JogoCadastroDTO dados) {
         try {
             Jogo jogoAtualizado = jogoService.atualizarJogo(id, dados);
             return ResponseEntity.ok(jogoAtualizado);
