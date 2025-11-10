@@ -14,8 +14,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
+
 import java.util.List;
 
 @Component
@@ -36,7 +36,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             if (decodedJWT != null) {
                 String subject = decodedJWT.getSubject();
-                String role = decodedJWT.getClaim("role").asString();
 
                 var userDetails = usuarioRepository.findByLogin(subject);
                 if (userDetails instanceof Usuario) {
@@ -45,7 +44,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                     var authentication = new UsernamePasswordAuthenticationToken(
                             usuario,
                             null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                            usuario.getAuthorities()
                     );
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);

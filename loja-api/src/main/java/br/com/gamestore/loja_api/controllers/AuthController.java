@@ -23,7 +23,7 @@ import org.springframework.security.core.AuthenticationException;
 
 @RestController
 @RequestMapping("/login") // Todas as rotas aqui começarão com /login
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class AuthController {
 
     @Autowired

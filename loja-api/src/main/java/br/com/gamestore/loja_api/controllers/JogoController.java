@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/jogos")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class JogoController {
 
 
