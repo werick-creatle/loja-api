@@ -20,8 +20,7 @@ public class TokenService {
 
     public String gerarToken(Usuario usuario) {
         try {
-            Date expiration = new Date(System.currentTimeMillis() + 3600000); // 1 hora
-
+            Date expiration = new Date(System.currentTimeMillis() + 3600000); // O token é valido por uma hora
             return JWT.create()
                     .withSubject(usuario.getLogin())
                     .withClaim("role", usuario.getRole().name()) // ✅ Role incluída
