@@ -40,7 +40,6 @@ public class UsuarioService {
         //Aqui eu atualizo os campos do objeto vivo(Conectado ao banco)
         usuario.setNomeCompleto(dados.nomeCompleto());
         usuario.setDataNascimento(dados.dataNascimento());
-        usuario.setLogin(dados.l);
 
         //@Transactional vai salvar(fazer o commit ) automaticamente
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
