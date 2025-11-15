@@ -1,0 +1,3 @@
+Aqui eu coloco os objetos usados só pra enviar/receber dados na API.
+Não uso as entidades direto pra não expor tudo.
+Cada DTO tem o que eu realmente preciso mandar ou receber, sem bagunça.

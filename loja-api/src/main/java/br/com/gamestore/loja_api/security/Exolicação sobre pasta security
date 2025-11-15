@@ -1,0 +1,3 @@
+    Aqui fica o que controla autenticação e autorização da API.
+    Filtros, validação de token, carregar usuário… tudo que roda antes de aceitar ou negar a requisição.
+    Se der problema de acesso, é aqui que eu olho primeiro.

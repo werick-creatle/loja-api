@@ -112,7 +112,7 @@ public class TestConfig {
             }
 
 
-            // --- CRIAÇÃO DO USUÁRIO ADMIN (ESSA É A PARTE CORRIGIDA) ---
+            //CRIAÇÃO DO USUÁRIO ADMIN
             System.out.println(">>> Verificando/Criando usuário ADMIN padrão...");
             if (usuarioRepository.findByLogin("admin@gamestore.com") == null) {
                 String senhaAdminCriptografada = passwordEncoder.encode("admin1G23"); // Mudei a senha para "admin1G23"
