@@ -56,9 +56,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/jogos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/jogos/**").hasRole("ADMIN")
 
-                        // [CORREÇÃO]: Mudei de hasRole("USER") para authenticated().
-                        // Motivo: Como estamos testando com o usuário ADMIN, se deixarmos só USER,
-                        // o Admin toma erro 403 ao tentar comprar. authenticated() libera para ambos.
                         .requestMatchers("/api/carrinho/**").authenticated()
                         .requestMatchers("/api/pedidos/**").authenticated()
                         .requestMatchers("/api/usuarios/**").authenticated()
