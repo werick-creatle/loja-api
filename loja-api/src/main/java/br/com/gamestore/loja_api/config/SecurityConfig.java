@@ -52,6 +52,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/jogos/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/admin/dashboard").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.POST, "/api/jogos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/jogos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/jogos/**").hasRole("ADMIN")
@@ -68,6 +71,7 @@ public class SecurityConfig {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(
