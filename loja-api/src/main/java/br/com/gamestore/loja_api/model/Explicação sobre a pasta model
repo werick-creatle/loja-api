@@ -1,4 +1,0 @@
-Aqui eu deixo as entidades do banco de dados.
-Cada classe dessa pasta representa uma tabela.
-Tudo que tem @Entity fica aqui: Carrinho, Jogo, Pedido, Usuário, etc.
-Se alterar aqui, altera no banco.

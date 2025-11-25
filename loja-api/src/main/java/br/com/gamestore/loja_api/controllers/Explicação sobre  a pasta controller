@@ -1,4 +1,0 @@
-Aqui ficam os endpoints da aplicação.
-São as classes que recebem as requisições HTTP (GET, POST, PUT, DELETE).
-Sempre que o frontend ou o cliente bater na API, passa por aqui primeiro.
-O controller só chama o service certo e devolve a resposta.

@@ -1,4 +1,0 @@
-Aqui ficam os acessos ao banco.
-São as interfaces que conversam direto com o banco usando JPA.
-Quando eu quiser salvar, buscar, deletar ou fazer query por ID, venho aqui.
-Qualquer busca personalizada também coloco nessa pasta.

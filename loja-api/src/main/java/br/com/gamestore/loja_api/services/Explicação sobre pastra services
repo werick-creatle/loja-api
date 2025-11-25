@@ -1,3 +1,0 @@
-Aqui fica a lógica do sistema, o “miolo” da aplicação.
-Toda regra de negócio mora aqui: adicionar ao carrinho, calcular total, validar pedido, gerar token…
-O controller chama o service, e o service fala com os repositories.
